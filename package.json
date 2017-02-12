@@ -1,0 +1,14 @@
+{
+  "name": "xenebackup-electron",
+  "version": "0.7.0",
+  "description": "A user friendly version of the Xenecraft FTP Backup utility",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Eric Gonzalo",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^1.4.15"
+  }
+}
