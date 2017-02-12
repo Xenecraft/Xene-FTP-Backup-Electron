@@ -18,14 +18,15 @@ function startFTPDownload(callback) {
   let destinationPath = settings.COPY_PATH.destinationPath;
   let finalDestinationPath = destinationPath + todayString;
 
-  utils.initFiles();
-  utils.writeLogging('----------------------');
-  utils.writeLogging(`Starting your backup! The time is currently ${startTimeString}.`);
-  utils.writeLogging(`Your files will go into ${finalDestinationPath}`);
-  utils.writeLogging('----------------------');
-  
-  utils.makeFolder(finalDestinationPath);
-  downloadFTPFiles(finalDestinationPath, startTime, callback);
+  utils.initFiles(()=>{
+    utils.writeLogging('----------------------');
+    utils.writeLogging(`Starting your backup! The time is currently ${startTimeString}.`);
+    utils.writeLogging(`Your files will go into ${finalDestinationPath}`);
+    utils.writeLogging('----------------------');
+    
+    utils.makeFolder(finalDestinationPath);
+    downloadFTPFiles(finalDestinationPath, startTime, callback);
+  });
 }
 
 function downloadFTPFiles(finalDestinationPath, startTime, callback) {

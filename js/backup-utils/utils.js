@@ -1,8 +1,10 @@
+'use strict';
 //Node Modules
 const fs = require('fs');
 const mkdirp = require('mkdirp');
 const moment = require('moment');
 
+//Methods we export
 const utils = {
   ignoreBuilder,
   initFiles,
@@ -10,7 +12,7 @@ const utils = {
   writeLogging,
 };
 
-const logsPath = '../../logs';
+const logsPath = '../../Logs';
 const dateFormatted = moment().format('YYYY-MM-D');
 let logFileName = dateFormatted + '-log.txt';
 let fullFilePath = logsPath + '/' + logFileName;
@@ -24,13 +26,18 @@ function ignoreBuilder(array){
   return formattedSearch;
 };
 
-function initFiles(){
+function initFiles(callback){
   //Check to see if the file does not exist, if not then create it
-  if(!fs.existsSync(fullFilePath)){
-    fs.writeFile(fullFilePath, fileHeaderMessage, (err)=>{
-      if(err) return console.log(err);
-    });
-  }
+  makeFolder(logsPath, ()=>{
+    let fileNotExists = !fs.existsSync(fullFilePath);
+    if(fileNotExists){
+      fs.writeFile(fullFilePath, fileHeaderMessage, (err)=>{
+        if(err) return console.log(err);
+        if (callback) callback();
+      });
+    }else
+      if (callback) callback();
+  });
 }
 
 function makeFolder(folderPath, callback) {
@@ -39,8 +46,10 @@ function makeFolder(folderPath, callback) {
     if (err) {
       mkdirp(folderPath, (err2) => {
         if (err2) console.log('There was an error:', err2);
+        if(callback) callback();
       });
-    }
+    }else
+      if(callback) callback();
   });
 }
 
