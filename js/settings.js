@@ -9,9 +9,11 @@ const settings = require('./app-settings.js');
     //Populate settings from settings.js
     populateValuesFromObject(settings.CONNECTION_SETTINGS);
     populateValuesFromObject(settings.COPY_PATH);
+    populateValuesFromObject(settings.APP_SETTINGS);
+    
 
     function populateValuesFromObject(settingsObject) {
-        console.log(settingsObject);
+        // console.log(settingsObject);
         for (let idx in settingsObject) {
             var inputSetting = document.getElementById(idx);
             if (inputSetting !== null) {

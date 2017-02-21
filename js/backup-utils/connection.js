@@ -18,15 +18,13 @@ function startFTPDownload(callback) {
   let destinationPath = settings.COPY_PATH.destinationPath;
   let finalDestinationPath = destinationPath + todayString;
 
-  utils.initFiles(()=>{
-    utils.writeLogging('----------------------');
-    utils.writeLogging(`Starting your backup! The time is currently ${startTimeString}.`);
-    utils.writeLogging(`Your files will go into ${finalDestinationPath}`);
-    utils.writeLogging('----------------------');
-    
-    utils.makeFolder(finalDestinationPath);
-    downloadFTPFiles(finalDestinationPath, startTime, callback);
-  });
+  utils.writeLogging('----------------------');
+  utils.writeLogging(`Starting your backup! The time is currently ${startTimeString}.`);
+  utils.writeLogging(`Your files will go into ${finalDestinationPath}`);
+  utils.writeLogging('----------------------');
+
+  utils.makeFolder(finalDestinationPath);
+  downloadFTPFiles(finalDestinationPath, startTime, callback);
 }
 
 function downloadFTPFiles(finalDestinationPath, startTime, callback) {
@@ -66,7 +64,7 @@ function finishFTPDownload(startTime, finalDestinationPath, callback) {
   utils.writeLogging(`Your backup is located in ${finalDestinationPath}`);
   utils.writeLogging('----------------------');
 
-  if(callback)
+  if (callback)
     callback();
 }
 
@@ -75,7 +73,7 @@ function downloadFile(c, filePath, fileName, finalDestinationPath, startTime) {
   utils.makeFolder(finalDestinationPath + '\\' + filePath)
 
   //Ignore downloading a file if it matches 
-  if (!finalFile.match(fileEndIgnore)) {   
+  if (!finalFile.match(fileEndIgnore)) {
     c.get(finalFile, (err, stream) => {
       utils.writeLogging('[Downloading] ' + finalFile);
       if (err) downloadRestart(err, finalDestinationPath, startTime);
@@ -84,8 +82,7 @@ function downloadFile(c, filePath, fileName, finalDestinationPath, startTime) {
         stream.pipe(fs.createWriteStream(finalDestinationPath + '\\' + finalFile));
       }
     })
-  } 
-  else
+  } else
     utils.writeLogging('[Ignoring] ' + fileName + ' due to settings');
 }
 
@@ -95,13 +92,14 @@ function recursiveLookDown(c, topDirectory, finalDestinationPath, startTime) {
       utils.writeLogging('[Recrusive Error]' + err, true);
       downloadRestart(err, finalDestinationPath, startTime);
     } else {
-    list.forEach((item) => {
-      if (item.type == '-')
-        downloadFile(c, topDirectory, item.name, finalDestinationPath, startTime);
-      else
-        recursiveLookDown(c, topDirectory + '/' + item.name, finalDestinationPath, startTime);
-    });
-  }})
+      list.forEach((item) => {
+        if (item.type == '-')
+          downloadFile(c, topDirectory, item.name, finalDestinationPath, startTime);
+        else
+          recursiveLookDown(c, topDirectory + '/' + item.name, finalDestinationPath, startTime);
+      });
+    }
+  })
 }
 
 function downloadRestart(err, finalDestinationPath, startTime) {

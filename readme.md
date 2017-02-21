@@ -35,6 +35,7 @@ ToDos:
 * Periodically delete other nights based on the frequency of backups
 * Include consideration for cronjob
 * Actual Windows installer
+* Fix bug with log extract and end of files
 
 Extra Notes:
 ----

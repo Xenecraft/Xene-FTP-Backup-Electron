@@ -7,7 +7,7 @@ const zlib = require('zlib');
 
 //My Modules
 const utils = require('./utils.js');
-const settings = require('./settings.js');
+const settings = require('../app-settings.js');
 
 let startTime = moment();
 let startTimeString = startTime.format('HH[:]mm[:]ss');
@@ -23,7 +23,7 @@ function initLogCopy(){
 			let newLocation = `${extractLogPath}${path.sep}ExtractedLogs${path.sep}`;
 
 			if(localFile.endsWith('.gz')){
-				console.log('Extracting', file, `to ${newLocation}`);
+				utils.writeLogging('[Extracting]' + file + `to ${newLocation}`);
 				gzExtract(localFile, newLocation, file);
 			}
 		})

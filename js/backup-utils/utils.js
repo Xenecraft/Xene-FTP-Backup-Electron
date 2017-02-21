@@ -6,21 +6,50 @@ const moment = require('moment');
 
 //Methods we export
 const utils = {
+  determineInterface,
   ignoreBuilder,
   initFiles,
 	makeFolder,
   writeLogging,
 };
 
-const logsPath = '../../Logs';
+let logsPath = '';
+let fullFilePath = '';
 const dateFormatted = moment().format('YYYY-MM-D');
 let logFileName = dateFormatted + '-log.txt';
-let fullFilePath = logsPath + '/' + logFileName;
 let fileHeaderMessage = dateFormatted + ' Backup Log File\r\n';
+
+function determineInterface(isDesktop, initializerCallback){
+  //Affects initFiles, writeLogging
+  let settingsFileString = '';
+  if(isDesktop){
+    logsPath = 'Logs';
+    settingsFileString = './js/app-settings.js';
+  } 
+  else {
+    logsPath = '../../Logs';
+    settingsFileString = '../app-settings.js';
+  }
+  fullFilePath = logsPath + '/' + logFileName;
+  let settingsFile = fs.readFileSync(settingsFileString, 'utf-8');
+
+  const settingLine = `isDesktop: `;
+  const searchRegexString = settingLine + `(false|true)` + `,`;
+  const currentSettingString = settingLine + isDesktop + `,`;
+
+  let searchRegex = new RegExp(searchRegexString);
+  let updatedDesktopSetting = settingsFile.replace(searchRegex, currentSettingString);
+
+  fs.writeFileSync(settingsFileString, updatedDesktopSetting, 'utf-8');
+  if(isDesktop) writeLogging('Desktop environment determined. Changing isDesktop setting to true.');
+  else writeLogging('Console environment determined. Changing isDesktop setting to false.');
+
+  initializerCallback();
+}
 
 function handleErrors(error, callback){
   if(error) return console.log('There was an error:', error);
-  if (callback) callback();
+  if(callback) callback();
 }
 
 function ignoreBuilder(array){
@@ -36,30 +65,35 @@ function initFiles(cb){
   makeFolder(logsPath, ()=>{
     let fileNotExists = !fs.existsSync(fullFilePath);
     if(fileNotExists){
-      fs.writeFile(fullFilePath, fileHeaderMessage, handleErrors(err, cb));
-    }else
+      fs.writeFile(fullFilePath, fileHeaderMessage, (err)=>{handleErrors(err, cb)});
+      writeLogging('Base files does not exist, creating default file' + fullFilePath)
+    }
+    else{
+      writeLogging('Base file exists, continuing on...')
       if (cb) cb();
+    }
   });
 }
 
 function makeFolder(folderPath, cb) {
   //Create a folder if none exists.
   fs.access(folderPath, fs.F_OK, (err) => {
-    if (err) {
-      mkdirp(folderPath, handleErrors(err2, cb));
-    }else
+    if (err) 
+      mkdirp(folderPath, (err2)=>{handleErrors(err2, cb)});
+    else
       if(cb) cb();
-  });
+  });;
 }
 
 function writeLogging(message, error){
+  //Praise file logging, so useful for debugging too!
   if(error) console.error(message);
   else console.log(message);
 
   //Add a new line for each write in the log file itself
   let timeFormatted = moment().format('HH:mm:ss');
   message = `[${timeFormatted}] ${message} \r\n`;
-  fs.appendFile(fullFilePath, message, handleErrors(err);
+  fs.appendFile(fullFilePath, message, handleErrors);
 }
 
 module.exports = utils;
