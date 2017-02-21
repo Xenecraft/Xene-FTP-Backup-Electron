@@ -18,6 +18,11 @@ let logFileName = dateFormatted + '-log.txt';
 let fullFilePath = logsPath + '/' + logFileName;
 let fileHeaderMessage = dateFormatted + ' Backup Log File\r\n';
 
+function handleErrors(error, callback){
+  if(error) return console.log('There was an error:', error);
+  if (callback) callback();
+}
+
 function ignoreBuilder(array){
   let formattedSearch = array.map((term)=>{
     return '(' + term + ')';
@@ -26,30 +31,24 @@ function ignoreBuilder(array){
   return formattedSearch;
 };
 
-function initFiles(callback){
+function initFiles(cb){
   //Check to see if the file does not exist, if not then create it
   makeFolder(logsPath, ()=>{
     let fileNotExists = !fs.existsSync(fullFilePath);
     if(fileNotExists){
-      fs.writeFile(fullFilePath, fileHeaderMessage, (err)=>{
-        if(err) return console.log(err);
-        if (callback) callback();
-      });
+      fs.writeFile(fullFilePath, fileHeaderMessage, handleErrors(err, cb));
     }else
-      if (callback) callback();
+      if (cb) cb();
   });
 }
 
-function makeFolder(folderPath, callback) {
+function makeFolder(folderPath, cb) {
   //Create a folder if none exists.
   fs.access(folderPath, fs.F_OK, (err) => {
     if (err) {
-      mkdirp(folderPath, (err2) => {
-        if (err2) console.log('There was an error:', err2);
-        if(callback) callback();
-      });
+      mkdirp(folderPath, handleErrors(err2, cb));
     }else
-      if(callback) callback();
+      if(cb) cb();
   });
 }
 
@@ -60,9 +59,7 @@ function writeLogging(message, error){
   //Add a new line for each write in the log file itself
   let timeFormatted = moment().format('HH:mm:ss');
   message = `[${timeFormatted}] ${message} \r\n`;
-  fs.appendFile(fullFilePath, message, (err)=>{
-    if(err) return console.log(err);
-  });
+  fs.appendFile(fullFilePath, message, handleErrors(err);
 }
 
 module.exports = utils;
