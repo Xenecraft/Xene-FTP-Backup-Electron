@@ -90,10 +90,10 @@ function makeFolder(folderPath, cb) {
 function writeLogging(message, isError) {
   //Praise file logging, so useful for debugging too!
   if (isError) console.error(message);
-  else{
-    if(actuallyDesktop) events.emitMessage(message);
+  else {
+    if (actuallyDesktop) events.emitMessage(message);
     else console.log(message);
-  } 
+  }
 
   //Add a new line for each write in the log file itself
   let timeFormatted = moment().format('HH:mm:ss');

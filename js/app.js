@@ -15,6 +15,13 @@ utils.determineInterface(IS_DESKTOP, utils.initFiles);
 document.getElementById("backup-start").addEventListener("click", startBackup);
 document.getElementById("extract-logs").addEventListener("click", extractLogFiles);
 
+// let links = document.getElementsByTagName('a');
+// for(let i = 0; i < links.length; i++){
+// 	let element = links[i];
+// 	element.addEventListener("click", (element)=>{
+// 	//Perform check on element here.
+// })};
+
 function startBackup() {
 	events.listenMessage();
   connection(() => {
