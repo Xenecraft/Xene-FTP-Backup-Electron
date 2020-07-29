@@ -9,7 +9,7 @@
   "author": "Eric Gonzalo",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^1.4.15"
+    "electron": "^9.1.1"
   },
   "dependencies": {
     "cron": "^1.1.0",
