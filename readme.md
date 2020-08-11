@@ -1,6 +1,6 @@
 XeneBackup - Electron
 -----
-An expansion of the original [Xene-FTP-Backup](https://github.com/Xenecraft/Xene-FTP-Backup) utility that could only be run via node. Use should be able to install this Electron utility and 
+An expansion of the original [Xene-FTP-Backup](https://github.com/Xenecraft/Xene-FTP-Backup) utility that could only be run via node. Use should be able to install this Electron utility and successfully download file from a remote server using FTP or SFTP.
 
 Setup
 -----
@@ -32,10 +32,15 @@ Packages used:
 
 ToDos:
 -----
-* Periodically delete other nights based on the frequency of backups
+* Better clearer naming for everything
+* Manage the specific file settings (Write/Encode/Save a file)
+* Separate log extractor into a new file/utility
+* Create tests for functionality
+* Reasses Electron Page Stylings
 * Include consideration for cronjob
-* Actual Windows installer
 * Fix bug with log extract and end of files
+* Periodically delete other nights based on the frequency of backups
+* Actual Windows installer
 
 Extra Notes:
 ----

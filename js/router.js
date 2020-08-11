@@ -1,4 +1,4 @@
-const router = {
+const electronRouter = {
   navigate,
 };
 
@@ -9,4 +9,4 @@ function navigate(urlString) {
   window.location.href = `/${urlString}.html`;
 }
 
-module.exports = router;
+module.exports = electronRouter;
