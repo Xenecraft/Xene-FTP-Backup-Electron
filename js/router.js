@@ -1,13 +1,12 @@
-
 const router = {
-	navigate,
+  navigate,
+};
+
+function navigate(urlString) {
+  // if(isRunning)
+  //  window.location.href = '/' + urlString;
+  // else
+  window.location.href = `/${urlString}.html`;
 }
 
-function navigate(urlString){
-	// if(isRunning)
-	// 	window.location.href = '/' + urlString;
-	// else
-	window.location.href = '/' + urlString + '.html';
-}
-
-module.exports = 
+module.exports = router;
