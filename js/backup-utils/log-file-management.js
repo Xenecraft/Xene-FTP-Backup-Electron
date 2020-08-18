@@ -14,10 +14,10 @@ const destinationPath = settings.COPY_PATH.destinationPath;
 const extractLogPath = destinationPath + todayString + path.sep + settings.COPY_PATH.folderName;
 const baseLogLocation = `${extractLogPath}${path.sep}logs${path.sep}`;
 
-function initLogCopy() {
+const initLogCopy = () => {
   console.log(baseLogLocation);
   fs.readdir(baseLogLocation, (data, files) => {
-    if (files == undefined) return utils.writeToLogs('No such files or path exists', true);
+    if (files === undefined) return utils.writeToLogs('No such files or path exists', true);
     files.forEach((file) => {
       const localFile = `${baseLogLocation}${file}`;
       const newLocation = `${extractLogPath}${path.sep}ExtractedLogs${path.sep}`;
@@ -28,9 +28,9 @@ function initLogCopy() {
       }
     });
   });
-}
+};
 
-function gzExtract(filePath, newPath, fileName) {
+const gzExtract = (filePath, newPath, fileName) => {
   const fileToBeExtracted = fs.createReadStream(filePath);
   const outputPath = newPath + fileName.slice(0, fileName.length - 3);
   const output = fs.createWriteStream(outputPath);
@@ -39,6 +39,6 @@ function gzExtract(filePath, newPath, fileName) {
   utils.makeFolder(newPath);
 
   fileToBeExtracted.pipe(zlib.Unzip()).pipe(output);
-}
+};
 
 module.exports = initLogCopy;
