@@ -4,7 +4,8 @@
   "description": "A user friendly version of the Xenecraft FTP Backup utility",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "test": "mocha"
   },
   "author": "Eric Gonzalo",
   "license": "MIT",
@@ -16,7 +17,8 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-mocha": "^7.0.1",
     "eslint-plugin-react": "^7.20.5",
-    "eslint-plugin-react-hooks": "^4.0.8"
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "mocha": "^8.1.1"
   },
   "dependencies": {
     "cron": "^1.1.0",

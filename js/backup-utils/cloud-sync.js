@@ -1,13 +1,13 @@
 const fs = require('fs-extra');
-const moment = require('moment');
 const path = require('path');
 const zlib = require('zlib');
 
 // My Modules
 const utils = require('./utils.js');
 const settings = require('../app-settings.js');
+const { getCurrentTimestamp } = require('./utils/moment-helper');
 
-const startTime = moment();
+const startTime = getCurrentTimestamp();
 const startTimeString = startTime.format('HH[:]mm[:]ss');
 const todayString = startTime.format('YYYY[.]MM[.]DD');
 const destinationPath = settings.COPY_PATH.destinationPath;
@@ -15,7 +15,9 @@ const extractLogPath = destinationPath + todayString + path.sep + settings.COPY_
 const baseLogLocation = `${extractLogPath}${path.sep}logs${path.sep}`;
 
 function initLogCopy() {
+  console.log(baseLogLocation);
   fs.readdir(baseLogLocation, (data, files) => {
+    if(files == undefined) return utils.writeLogging('No such files or path exists', true);
     files.forEach((file) => {
       const localFile = `${baseLogLocation}${file}`;
       const newLocation = `${extractLogPath}${path.sep}ExtractedLogs${path.sep}`;

@@ -10,7 +10,8 @@ const events = require('./backup-utils/events.js');
 const IS_DESKTOP = true;
 utils.determineInterface(IS_DESKTOP, utils.initFiles);
 
-document.getElementById("backup-start").addEventListener("click", startBackup);
+document.getElementById("ftp-backup-start").addEventListener("click", startFTPBackup);
+document.getElementById("sftp-backup-start").addEventListener("click", startSFTPBackup);
 document.getElementById("extract-logs").addEventListener("click", extractLogFiles);
 
 // let links = document.getElementsByTagName('a');
@@ -20,7 +21,14 @@ document.getElementById("extract-logs").addEventListener("click", extractLogFile
 //  //Perform check on element here.
 // })};
 
-function startBackup() {
+function startFTPBackup() {
+  events.listenMessage();
+  connection(() => {
+    process.exit();
+  });
+}
+
+function startSFTPBackup() {
   events.listenMessage();
   connection(() => {
     process.exit();

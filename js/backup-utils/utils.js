@@ -14,14 +14,14 @@ const utils = {
 
 let logsPath = '';
 let fullFilePath = '';
-const dateFormatted = moment().format('YYYY-MM-D');
-const logFileName = dateFormatted + '-log.txt';
-const fileHeaderMessage = dateFormatted + ' Backup Log File\r\n';
 let actuallyDesktop = false;
+const dateFormatted = moment().format('YYYY-MM-D');
 
 function determineInterface(isDesktop, initializerCallback) {
   // Affects initFiles, writeLogging
   let settingsFileString = '';
+  const logFileName = dateFormatted + '-log.txt';
+
   actuallyDesktop = isDesktop;
 
   if (isDesktop) {
@@ -56,7 +56,7 @@ function handleErrors(error, callback) {
 function ignoreBuilder(array) {
   let formattedSearch = array.map((term) => {
     return '(' + term + ')';
-  })
+  });
   formattedSearch = formattedSearch.join('|');
   return formattedSearch;
 };
@@ -66,6 +66,7 @@ function initFiles(cb) {
   makeFolder(logsPath, () => {
     let fileNotExists = !fs.existsSync(fullFilePath);
     if (fileNotExists) {
+      const fileHeaderMessage = dateFormatted + ' Backup Log File\r\n';
       fs.writeFile(fullFilePath, fileHeaderMessage, (err) => { handleErrors(err, cb); });
       writeLogging('Base files does not exist, creating default file' + fullFilePath);
     } else {
@@ -75,17 +76,17 @@ function initFiles(cb) {
   });
 }
 
-function makeFolder(folderPath, cb) {
+function makeFolder(folderPath, callback) {
   // Create a folder if none exists.
   fs.access(folderPath, fs.F_OK, (err) => {
-    if (err)mkdirp(folderPath, (err2) => { handleErrors(err2, cb); });
-    else if (cb) cb();
+    if (err) mkdirp(folderPath, (err2) => { handleErrors(err2, callback); });
+    else if (callback) callback();
   });
 }
 
 function writeLogging(message, isError) {
   // Praise file logging, so useful for debugging too!
-  if (isError) console.error(message);
+  if (isError) return console.error(message);
   else {
     if (actuallyDesktop) events.emitMessage(message);
     else console.log(message);
@@ -97,4 +98,10 @@ function writeLogging(message, isError) {
   fs.appendFile(fullFilePath, message, handleErrors);
 }
 
-module.exports = utils;
+module.exports = {
+  determineInterface,
+  ignoreBuilder,
+  initFiles,
+  makeFolder,
+  writeLogging,
+};

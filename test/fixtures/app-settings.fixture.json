@@ -1,0 +1,11 @@
+{ 
+  "ftpHost": "yourFTPHost.io",
+  "ftpUser": "yourFTPUser",
+  "ftpPassword": "yourFTPPassword",
+  "sftpHost": "yourSFTPHost.io",
+  "sftpUser": "yourSFTPUser",
+  "sftpPassword": "yourSFTPPassword",
+  "ftpPort": "21",
+  "sftpPort": "7767",
+  "keepalive": "30000"
+}
