@@ -27,5 +27,6 @@ module.exports = {
     'mocha/no-top-level-hooks': 0,
     'mocha/no-hooks-for-single-case': 0,
     'arrow-body-style': ['error', 'always'],
+    'no-plusplus': ['error', { 'allowForLoopAfterthoughts': true }]
   },
 };

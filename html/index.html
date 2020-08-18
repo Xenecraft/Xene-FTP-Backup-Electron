@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>Xenecraft Backup Utility</title>
-    <link rel="stylesheet" href=".\css\bootstrap.css">
-    <link rel="stylesheet" href=".\css\main.css">
+    <link rel="stylesheet" href="..\css\bootstrap.css">
+    <link rel="stylesheet" href="..\css\main.css">
   </head>
 
   <body>
@@ -12,18 +12,18 @@
 
     <nav class="navbar navbar-default">
       <div class="container-fluid">
-        <!-- Collect the nav links, forms, and other content for toggling -->
           <ul class="nav navbar-nav">
-            <li><a href=".\index.html">Home</a></li>
-            <li><a href=".\logs.html">Logs</a></li>
-            <li><a href=".\settings.html">Settings</a></li>
-            <li><a href=".\support.html">Support</a></li>
+            <li><a href="..\html\index.html">Home</a></li>
+            <li><a href="..\html\logs.html">Logs</a></li>
+            <li><a href="..\html\settings.html">Settings</a></li>
+            <li><a href="..\html\support.html">Support</a></li>
           </ul>
-      </div><!-- /.container-fluid -->
+      </div>
     </nav>
 
       <div class="col-sm-8">
-        <button id="backup-start" class="btn btn-default">Start Backup</button>
+        <button id="ftp-backup-start" class="btn btn-default">Start FTP Backup</button>
+        <button id="sftp-backup-start" class="btn btn-default">Start SFTP Backup</button>
         <button id="extract-logs" class="btn btn-warning">Extract Logs</button>
 
         <div id="log-section" class="panel panel-info">
@@ -37,6 +37,7 @@
 
   <script>
     // You can also require other files to run in this process
-    require('./js/app.js')
+
+    require('../js/app.js')
   </script>
 </html>

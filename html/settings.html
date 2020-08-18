@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>Xenecraft Backup Utility - Settings</title>
-    <link rel="stylesheet" href=".\css\bootstrap.css">
-    <link rel="stylesheet" href=".\css\main.css">
+    <link rel="stylesheet" href="..\css\bootstrap.css">
+    <link rel="stylesheet" href="..\css\main.css">
   </head>
 
   <body>
@@ -12,26 +12,33 @@
 
     <nav class="navbar navbar-default">
       <div class="container-fluid">
-        <!-- Collect the nav links, forms, and other content for toggling -->
           <ul class="nav navbar-nav">
-            <li><a href=".\index.html">Home</a></li>
-            <li><a href=".\logs.html">Logs</a></li>
-            <li><a href=".\settings.html">Settings</a></li>
-            <li><a href=".\support.html">Support</a></li>
+            <li><a href="..\html\index.html">Home</a></li>
+            <li><a href="..\html\logs.html">Logs</a></li>
+            <li><a href="..\html\settings.html">Settings</a></li>
+            <li><a href="..\html\support.html">Support</a></li>
           </ul>
-      </div><!-- /.container-fluid -->
+      </div>
     </nav>
 
     <div class="col-sm-8">
     	<div class="panel panel-info">
 	    	<div class="panel-heading">Connection Settings</div>
+        <button id="getFolderPath" class="btn btn-default">Get Folder Path</button>
 	    	<div class="panel-body">
 	    		<table class="table">
 	    			<tr><th>Setting</th><th>Value</th></tr>
-	    			<tr><td>Host</td><td><input class="form-control" id="host"></td></tr>
-	    			<tr><td>User</td><td><input class="form-control" id="user"></td></tr>
-	    			<tr><td>Password</td><td><input class="form-control" type="password" id="password"></td></tr>
-	    			<tr><td>Port</td><td><input class="form-control" id="port" type="number"></td></tr>
+            <tr><td><h4>FTP Settings</h4></td></tr>
+	    			<tr><td>Host</td><td><input class="form-control" id="ftpHost"></td></tr>
+	    			<tr><td>User</td><td><input class="form-control" id="ftpUser"></td></tr>
+	    			<tr><td>Password</td><td><input class="form-control" type="password" id="ftpPassword"></td></tr>
+	    			<tr><td>Port</td><td><input class="form-control" id="ftpPort" type="number"></td></tr>
+            <tr><td><h4>SFTP Settings</h4></td></tr>
+            <tr><td>Host</td><td><input class="form-control" id="sftpHost"></td></tr>
+            <tr><td>User</td><td><input class="form-control" id="sftpUser"></td></tr>
+            <tr><td>Password</td><td><input class="form-control" type="password" id="sftpPassword"></td></tr>
+            <tr><td>Port</td><td><input class="form-control" id="sftpPort" type="number"></td></tr>
+            <tr><td><h4>Miscellaneous Settings</h4></td></tr>
 	    			<tr><td>Keep Alive Time<td><input class="form-control" id="keepalive" type="number"></td></tr>
 	    		</table>
     		</div>
@@ -44,6 +51,7 @@
 	    			<tr><th>Setting</th><th>Value</th></tr>
 	    			<tr><td>Server Folder Entry</td><td><input class="form-control" id="folderName"></td></tr>
 	    			<tr><td>Destination Path</td><td><input class="form-control" id="destinationPath"></td></tr>
+            <tr><td>Files or Paths To Ignore</td><td><input class="form-control" id="ignoreFiles"></td></tr>
 	    		</table>
     		</div>
     	</div>
@@ -65,6 +73,6 @@
 
   <script>
     // You can also require other files to run in this process
-    require('./js/settings.js')
+    require('../js/settings.js')
   </script>
 </html>
