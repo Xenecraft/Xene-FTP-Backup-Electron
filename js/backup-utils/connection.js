@@ -66,20 +66,20 @@ function downloadFile(transferClient, filePath, fileName, finalDestinationPath, 
   const fileEndIgnore = new RegExp(ignoreString, 'g');
   if (!finalFile.match(fileEndIgnore)) {
     transferClient.get(finalFile, (err, stream) => {
-      utils.writeLogging(`[Downloading] ${finalFile}`);
+      utils.writeToLogs(`[Downloading] ${finalFile}`);
       if (err) downloadRestart(err, finalDestinationPath, startTime);
       else {
         stream.once('close', () => { /* Each file closes its own connection */ });
         stream.pipe(fs.createWriteStream(finalDestinationPath + '\\' + finalFile));
       }
     });
-  } else utils.writeLogging(`[Ignoring] ${fileName} due to settings`);
+  } else utils.writeToLogs(`[Ignoring] ${fileName} due to settings`);
 }
 
 function recursiveLookDown(transferClient, topDirectory, finalDestinationPath, startTime) {
   transferClient.list(topDirectory, (err, list) => {
     if (err) {
-      utils.writeLogging(`[Recrusive Error] ${err}`, true);
+      utils.writeToLogs(`[Recrusive Error] ${err}`, true);
       downloadRestart(err, finalDestinationPath, startTime);
     } else {
       list.forEach((item) => {

@@ -1,6 +1,6 @@
-const connection = require('./connection.js');
-const logFilesSync = require('./cloud-sync.js');
-const utils = require('./utils.js');
+const connection = require('./connection');
+const logFilesSync = require('./log-file-management');
+const utils = require('./utils');
 
 const IS_DESKTOP = false;
 utils.determineInterface(IS_DESKTOP, () => {

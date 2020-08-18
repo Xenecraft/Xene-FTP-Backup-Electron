@@ -17,13 +17,13 @@ const baseLogLocation = `${extractLogPath}${path.sep}logs${path.sep}`;
 function initLogCopy() {
   console.log(baseLogLocation);
   fs.readdir(baseLogLocation, (data, files) => {
-    if(files == undefined) return utils.writeLogging('No such files or path exists', true);
+    if (files == undefined) return utils.writeToLogs('No such files or path exists', true);
     files.forEach((file) => {
       const localFile = `${baseLogLocation}${file}`;
       const newLocation = `${extractLogPath}${path.sep}ExtractedLogs${path.sep}`;
 
       if (localFile.endsWith('.gz')) {
-        utils.writeLogging(`[Extracting] ${file} to ${newLocation}`);
+        utils.writeToLogs(`[Extracting] ${file} to ${newLocation}`);
         gzExtract(localFile, newLocation, file);
       }
     });
