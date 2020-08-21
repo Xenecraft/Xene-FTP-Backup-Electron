@@ -1,5 +1,6 @@
 module.exports = {
   env: {
+    browser: true,
     es6: true,
     node: true,
     mocha: true,
@@ -27,6 +28,7 @@ module.exports = {
     'mocha/no-top-level-hooks': 0,
     'mocha/no-hooks-for-single-case': 0,
     'arrow-body-style': ['error', 'always'],
-    'no-plusplus': ['error', { 'allowForLoopAfterthoughts': true }]
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
+    'prefer-template': 0,
   },
 };

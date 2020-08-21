@@ -1,4 +1,4 @@
-const connection = require('./connection');
+const connection = require('./ftp-connection');
 const logFilesSync = require('./log-file-management');
 const utils = require('./utils');
 

@@ -2,7 +2,7 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
-const connection = require('./backup-utils/connection');
+const connection = require('./backup-utils/ftp-connection');
 const extractLogs = require('./backup-utils/log-file-management');
 const utils = require('./backup-utils/utils');
 const events = require('./backup-utils/events');

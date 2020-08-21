@@ -5,12 +5,7 @@
 const { dialog } = require('electron').remote;
 const settings = require('./app-settings');
 
-(function () {
-  // Populate settings from settings.js
-  populateValuesFromObject(settings.CONNECTION_SETTINGS);
-  populateValuesFromObject(settings.COPY_PATH);
-  populateValuesFromObject(settings.APP_SETTINGS);
-
+const populateSettingsPage = () => {
   function populateValuesFromObject(settingsObject) {
     // console.log(settingsObject);
     for (let idx in settingsObject) {
@@ -31,12 +26,20 @@ const settings = require('./app-settings');
     }
   }
 
+  // Populate settings from app-settings.js
+  populateValuesFromObject(settings.CONNECTION_SETTINGS);
+  populateValuesFromObject(settings.COPY_PATH);
+  populateValuesFromObject(settings.APP_SETTINGS);
+
   watchInputsForUpdate();
 
-  const getPath = () => {
+  const getFilePath = () => {
     dialog.showOpenDialog({
       properties: ['openDirectory'],
     }).then((filePath) => { console.log(filePath.filePaths); });
   };
-  document.getElementById('getFolderPath').addEventListener('click', getPath);
-}());
+  // Set this for destinationPath input
+  document.getElementById('getFolderPath').addEventListener('click', getFilePath);
+};
+
+(populateSettingsPage());

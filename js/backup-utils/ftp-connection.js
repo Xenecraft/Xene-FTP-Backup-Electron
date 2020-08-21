@@ -19,8 +19,13 @@ function startFTPDownload(callback) {
 
   startBackupMessage(startTimeString, finalDestinationPath);
 
-  utils.makeFolder(finalDestinationPath);
+  utils.checkOrMakeFolder(finalDestinationPath);
   downloadFTPFiles(finalDestinationPath, startTime, callback);
+}
+
+function downloadRestart(err, finalDestinationPath, startTime) {
+  sendDownloadErrorMessage(err);
+  downloadFTPFiles(finalDestinationPath, startTime);
 }
 
 function downloadFTPFiles(finalDestinationPath, startTime, callback) {
@@ -60,7 +65,7 @@ function finishFTPDownload(startTime, finalDestinationPath, callback) {
 
 function downloadFile(transferClient, filePath, fileName, finalDestinationPath, startTime) {
   const finalFile = `${filePath}/${fileName}`;
-  utils.makeFolder(finalDestinationPath + '\\' + filePath);
+  utils.checkOrMakeFolder(finalDestinationPath + '\\' + filePath);
 
   // Ignore downloading a file if it matches the fileType
   const fileEndIgnore = new RegExp(ignoreString, 'g');
@@ -70,7 +75,8 @@ function downloadFile(transferClient, filePath, fileName, finalDestinationPath, 
       if (err) downloadRestart(err, finalDestinationPath, startTime);
       else {
         stream.once('close', () => { /* Each file closes its own connection */ });
-        stream.pipe(fs.createWriteStream(finalDestinationPath + '\\' + finalFile));
+        const constructedFileWithPath = finalDestinationPath + '\\' + finalFile;
+        stream.pipe(fs.createWriteStream(constructedFileWithPath));
       }
     });
   } else utils.writeToLogs(`[Ignoring] ${fileName} due to settings`);
@@ -88,11 +94,6 @@ function recursiveLookDown(transferClient, topDirectory, finalDestinationPath, s
       });
     }
   });
-}
-
-function downloadRestart(err, finalDestinationPath, startTime) {
-  sendDownloadErrorMessage(err);
-  downloadFTPFiles(finalDestinationPath, startTime);
 }
 
 // Uncomment to test the FTP Download without the cronjob.

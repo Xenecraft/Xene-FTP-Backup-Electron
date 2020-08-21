@@ -3,12 +3,13 @@ const mkdirp = require('mkdirp');
 const events = require('./events');
 const { getCurrentTimestamp } = require('./utils/moment-helper');
 
-// Methods To Export
+// Global Variables
 let logsPath = '';
 let fullFilePath = '';
 let actuallyDesktop = false;
 const dateFormatted = getCurrentTimestamp().format('YYYY-MM-D');
 
+// Methods To Export
 const determineInterface = (isDesktop, initializerCallback) => {
   // Affects initFiles, writeToLogs
   let settingsFileString = '';
@@ -24,7 +25,7 @@ const determineInterface = (isDesktop, initializerCallback) => {
     settingsFileString = '../app-settings.js';
   }
   fullFilePath = logsPath + '/' + logFileName;
-  let settingsFile = fs.readFileSync(settingsFileString, 'utf-8');
+  const settingsFile = fs.readFileSync(settingsFileString, 'utf-8');
 
   const settingLine = 'isDesktop: ';
   const searchRegexString = settingLine + '(false|true)' + ',';
@@ -55,7 +56,7 @@ const ignoreBuilder = (array) => {
 
 const initFiles = (cb) => {
   // Check to see if the file does not exist, if not then create it
-  makeFolder(logsPath, () => {
+  checkOrMakeFolder(logsPath, () => {
     let fileNotExists = !fs.existsSync(fullFilePath);
     if (fileNotExists) {
       const fileHeaderMessage = dateFormatted + ' Backup Log File\r\n';
@@ -68,7 +69,7 @@ const initFiles = (cb) => {
   });
 };
 
-const makeFolder = (folderPath, callback) => {
+const checkOrMakeFolder = (folderPath, callback) => {
   // Create a folder if none exists.
   fs.access(folderPath, fs.F_OK, (err) => {
     if (err) mkdirp(folderPath, (err2) => { handleErrors(err2, callback); });
@@ -85,14 +86,14 @@ const writeToLogs = (message, isError) => {
 
   // Add a new line for each write in the log file itself
   const timeFormatted = getCurrentTimestamp().format('HH:mm:ss');
-  message = `[${timeFormatted}] ${message} \r\n`;
-  return fs.appendFile(fullFilePath, message, handleErrors);
+  const logMessage = `[${timeFormatted}] ${message} \r\n`;
+  return fs.appendFile(fullFilePath, logMessage, handleErrors);
 };
 
 module.exports = {
   determineInterface,
   ignoreBuilder,
   initFiles,
-  makeFolder,
+  checkOrMakeFolder,
   writeToLogs,
 };

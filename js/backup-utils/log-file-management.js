@@ -8,11 +8,21 @@ const settings = require('../app-settings.js');
 const { getCurrentTimestamp } = require('./utils/moment-helper');
 
 const startTime = getCurrentTimestamp();
-const startTimeString = startTime.format('HH[:]mm[:]ss');
 const todayString = startTime.format('YYYY[.]MM[.]DD');
-const destinationPath = settings.COPY_PATH.destinationPath;
+const { destinationPath } = settings.COPY_PATH;
 const extractLogPath = destinationPath + todayString + path.sep + settings.COPY_PATH.folderName;
 const baseLogLocation = `${extractLogPath}${path.sep}logs${path.sep}`;
+
+const gzExtract = (filePath, newPath, fileName) => {
+  const fileToBeExtracted = fs.createReadStream(filePath);
+  const outputPath = newPath + fileName.slice(0, fileName.length - 3);
+  const output = fs.createWriteStream(outputPath);
+
+  // Create a folder if none exists.
+  utils.checkOrMakeFolder(newPath);
+
+  return fileToBeExtracted.pipe(zlib.Unzip()).pipe(output);
+};
 
 const initLogCopy = () => {
   console.log(baseLogLocation);
@@ -24,21 +34,10 @@ const initLogCopy = () => {
 
       if (localFile.endsWith('.gz')) {
         utils.writeToLogs(`[Extracting] ${file} to ${newLocation}`);
-        gzExtract(localFile, newLocation, file);
+        return gzExtract(localFile, newLocation, file);
       }
     });
   });
-};
-
-const gzExtract = (filePath, newPath, fileName) => {
-  const fileToBeExtracted = fs.createReadStream(filePath);
-  const outputPath = newPath + fileName.slice(0, fileName.length - 3);
-  const output = fs.createWriteStream(outputPath);
-
-  // Create a folder if none exists.
-  utils.makeFolder(newPath);
-
-  fileToBeExtracted.pipe(zlib.Unzip()).pipe(output);
 };
 
 module.exports = initLogCopy;
