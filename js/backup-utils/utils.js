@@ -81,6 +81,7 @@ const writeToLogs = (message, isError) => {
   // Praise file logging, so useful for debugging too!
   if (isError) return console.error(message);
 
+  // Write to our Electron app, else Terminal
   if (actuallyDesktop) events.emitMessage(message);
   else console.log(message);
 

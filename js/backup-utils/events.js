@@ -9,7 +9,7 @@ const listenMessage = () => {
     const logHtmlString = '<br>' + event.detail.msg;
     document.getElementsByClassName('panel-body')[0].innerHTML += logHtmlString;
   });
-}
+};
 
 module.exports = {
   emitMessage,

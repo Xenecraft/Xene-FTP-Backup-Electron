@@ -2,6 +2,7 @@ class HostSettings {
   constructor(host, user, password, port) {
     this.host = host;
     this.user = user;
+    this.username = user;
     this.password = password;
     this.port = port;
   }
